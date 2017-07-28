@@ -137,6 +137,7 @@ All scripts applied successfully.
       --lineending=VALUE     line ending to use when applying scripts direct
                                to db (platform, cr, crlf, lf)
       --config=VALUE         configuration file to use for all settings.
+      --commandTimeout=VALUE command timeout for each individual statement.
 </pre>
 
 ### Re-running with Failed Scripts
