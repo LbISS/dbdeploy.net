@@ -1,14 +1,13 @@
 ﻿namespace Net.Sf.Dbdeploy.Configuration
 {
-    using System.IO;
-    using System.Text;
+	using Net.Sf.Dbdeploy.Database;
+	using System.IO;
+	using System.Text;
 
-    using Net.Sf.Dbdeploy.Database;
-
-    /// <summary>
-    /// Default values for DbDeploy configuration.
-    /// </summary>
-    public static class DbDeployDefaults
+	/// <summary>
+	/// Default values for DbDeploy configuration.
+	/// </summary>
+	public static class DbDeployDefaults
     {
         /// <summary>
         /// The DBMS default value.
@@ -79,5 +78,10 @@
         /// The line ending default value.
         /// </summary>
         public static readonly string LineEnding = Database.LineEnding.Platform;
-    }
+
+		/// <value>
+		/// The default command timeout. (in seconds)
+		/// </value>
+		public static readonly int? CommandTimeout = null;
+	}
 }

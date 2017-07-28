@@ -1,18 +1,16 @@
 ﻿namespace Net.Sf.Dbdeploy
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
+	using NDesk.Options;
+	using Net.Sf.Dbdeploy.Configuration;
+	using Net.Sf.Dbdeploy.Exceptions;
+	using System;
+	using System.Collections.Generic;
+	using System.IO;
 
-    using NDesk.Options;
-
-    using Net.Sf.Dbdeploy.Configuration;
-    using Net.Sf.Dbdeploy.Exceptions;
-
-    /// <summary>
-    /// Manages all options for the command line.
-    /// </summary>
-    public static class OptionsManager
+	/// <summary>
+	/// Manages all options for the command line.
+	/// </summary>
+	public static class OptionsManager
     {
         /// <summary>
         /// Prints the options usage.
@@ -155,12 +153,17 @@
                     "line ending to use when applying scripts direct to db (platform, cr, crlf, lf)",
                     s => config.LineEnding = Parser.ParseLineEnding(s))
 
+				.Add(
+					"config=",
+					"configuration file to use for all settings.",
+					s => configFile.FileInfo = !string.IsNullOrWhiteSpace(s) ? new FileInfo(StripQuotes(s)) : null)
+
                 .Add(
-                    "config=",
-                    "configuration file to use for all settings.",
-                    s => configFile.FileInfo = !string.IsNullOrWhiteSpace(s) ? new FileInfo(StripQuotes(s)) : null);
-            
-            return options;
+					"commandTimeout=",
+					"command timeout for each individual statement.",
+					s => config.CommandTimeout = !string.IsNullOrWhiteSpace(s) ? Convert.ToInt32(StripQuotes(s)) : (int?)null);
+
+			return options;
         }
 
         /// <summary>

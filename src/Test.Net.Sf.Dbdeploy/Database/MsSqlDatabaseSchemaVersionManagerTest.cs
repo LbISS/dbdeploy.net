@@ -1,22 +1,20 @@
 namespace Net.Sf.Dbdeploy.Database
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Data;
-    using System.Data.SqlClient;
-    using System.Globalization;
-    using System.IO;
-    using System.Text;
-    using global::Dbdeploy.Powershell;
-    using Net.Sf.Dbdeploy.Appliers;
-    using Net.Sf.Dbdeploy.Configuration;
-    using Net.Sf.Dbdeploy.Database.SqlCmd;
-    using Net.Sf.Dbdeploy.Exceptions;
-    using Net.Sf.Dbdeploy.Scripts;
-    using NUnit.Framework;
+	using Net.Sf.Dbdeploy.Appliers;
+	using Net.Sf.Dbdeploy.Configuration;
+	using Net.Sf.Dbdeploy.Database.SqlCmd;
+	using Net.Sf.Dbdeploy.Scripts;
+	using NUnit.Framework;
+	using System;
+	using System.Collections.Generic;
+	using System.Configuration;
+	using System.Data;
+	using System.Data.SqlClient;
+	using System.Globalization;
+	using System.IO;
+	using System.Text;
 
-    [Category("MSSQL"), Category("DbIntegration")]
+	[Category("MSSQL"), Category("DbIntegration")]
     public class MsSqlDatabaseSchemaVersionManagerTest : AbstractDatabaseSchemaVersionManagerTest
     {
         private static string _connectionString;
@@ -40,14 +38,14 @@ namespace Net.Sf.Dbdeploy.Database
                 }
                 return _connectionString;
             }
-        }
+		}
 
-        protected override string Folder
-        {
-            get { return FOLDER; }
-        }
+		protected override string Folder
+		{
+			get { return FOLDER; }
+		}
 
-        protected override string[] ChangelogTableDoesNotExistMessages
+		protected override string[] ChangelogTableDoesNotExistMessages
         {
             get { return CHANGELOG_TABLE_DOES_NOT_EXIST_MESSAGES; }
         }
@@ -57,7 +55,9 @@ namespace Net.Sf.Dbdeploy.Database
 			get { return DBMS; }
     	}
 
-        [Test]
+		protected override int? CommandTimeout => null;
+
+		[Test]
     	public void ShouldNotThrowExceptionIfAllPreviousScriptsAreCompleted()
     	{
 			this.EnsureTableDoesNotExist();
@@ -137,7 +137,7 @@ namespace Net.Sf.Dbdeploy.Database
             this.EnsureTableDoesNotExist("log.Installs");
 
             var factory = new DbmsFactory(this.Dbms, this.ConnectionString);
-            var executer = new QueryExecuter(factory);
+            var executer = new QueryExecuter(factory, CommandTimeout);
             var databaseSchemaManager = new DatabaseSchemaVersionManager(executer, factory.CreateDbmsSyntax(), "log.Installs");
 
             var applier = new DirectToDbApplier(executer, databaseSchemaManager, new QueryStatementSplitter(),

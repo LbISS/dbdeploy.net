@@ -3,11 +3,10 @@ using System.Management.Automation;
 
 namespace Dbdeploy.Powershell.Commands
 {
-    using System.Linq;
+	using Net.Sf.Dbdeploy.Configuration;
+	using System.Linq;
 
-    using Net.Sf.Dbdeploy.Configuration;
-
-    public class DbUpdateBase : PSCmdlet
+	public class DbUpdateBase : PSCmdlet
     {
         private DbDeployConfig config;
 
@@ -45,10 +44,13 @@ namespace Dbdeploy.Powershell.Commands
         [Parameter(Mandatory = false, HelpMessage = "Sets if previously failed scripts should be retried. Defaults to false")]
         public bool ForceUpdate { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "Sets if SQLCMD mode should be used. Defaults to false")]
-        public bool UseSqlCmd { get; set; }
+		[Parameter(Mandatory = false, HelpMessage = "Sets if SQLCMD mode should be used. Defaults to false")]
+		public bool UseSqlCmd { get; set; }
 
-        protected override void ProcessRecord()
+		[Parameter(Mandatory = false, HelpMessage = "Command timeout.")]
+		public int? CommandTimeout { get; set; }
+
+		protected override void ProcessRecord()
         {
             var configurationFile = this.ToAbsolutePath(ConfigurationFile);
             this.deltasDirectory = this.ToAbsolutePath(DeltasDirectory);
@@ -64,7 +66,10 @@ namespace Dbdeploy.Powershell.Commands
                 if (string.IsNullOrEmpty(this.ConnectionString))
                     this.ConnectionString = this.config.ConnectionString;
 
-                if (string.IsNullOrEmpty(this.TableName) || this.TableName == DbDeployDefaults.ChangeLogTableName)
+				if(!this.CommandTimeout.HasValue)
+					this.CommandTimeout = this.config.CommandTimeout;
+
+				if (string.IsNullOrEmpty(this.TableName) || this.TableName == DbDeployDefaults.ChangeLogTableName)
                     this.TableName = this.config.ChangeLogTableName;
             }
 

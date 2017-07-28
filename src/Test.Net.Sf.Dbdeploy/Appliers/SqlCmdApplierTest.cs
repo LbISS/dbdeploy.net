@@ -1,22 +1,20 @@
 ﻿namespace Net.Sf.Dbdeploy.Appliers
 {
-    using System.Configuration;
-    using System.Data;
-    using System.Data.SqlClient;
-    using System.Globalization;
-    using System.IO;
-    using System.Text;
+	using Net.Sf.Dbdeploy.Database;
+	using Net.Sf.Dbdeploy.Exceptions;
+	using Net.Sf.Dbdeploy.Scripts;
+	using NUnit.Framework;
+	using System.Configuration;
+	using System.Data;
+	using System.Data.SqlClient;
+	using System.Globalization;
+	using System.IO;
+	using System.Text;
 
-    using Net.Sf.Dbdeploy.Database;
-    using Net.Sf.Dbdeploy.Exceptions;
-    using Net.Sf.Dbdeploy.Scripts;
-
-    using NUnit.Framework;
-
-    /// <summary>
-    /// Tests for <see cref="SqlCmdApplier"/> class.
-    /// </summary>
-    [TestFixture]
+	/// <summary>
+	/// Tests for <see cref="SqlCmdApplier"/> class.
+	/// </summary>
+	[TestFixture]
     public class SqlCmdApplierTest
     {
         /// <summary>
@@ -44,14 +42,19 @@
         /// </summary>
         private DirectoryScanner directoryScanner;
 
-        /// <summary>
-        /// Sets up the dependencies before each test.
-        /// </summary>
-        [SetUp]
+		/// <summary>
+		/// The command timeout
+		/// </summary>
+		private int? CommandTimeout = null;
+
+		/// <summary>
+		/// Sets up the dependencies before each test.
+		/// </summary>
+		[SetUp]
         public void SetUp()
         {
             var dbmsFactory = new DbmsFactory(Dbms, ConnectionString);
-            var queryExecuter = new QueryExecuter(dbmsFactory);
+            var queryExecuter = new QueryExecuter(dbmsFactory, CommandTimeout);
             var dbmsSyntax = dbmsFactory.CreateDbmsSyntax();
 
             var schemaVersionManager = new DatabaseSchemaVersionManager(queryExecuter, dbmsSyntax, ChangeLogTableName);

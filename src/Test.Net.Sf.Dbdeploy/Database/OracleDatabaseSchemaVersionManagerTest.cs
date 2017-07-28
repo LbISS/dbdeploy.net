@@ -2,12 +2,12 @@ using System;
 
 namespace Net.Sf.Dbdeploy.Database
 {
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Data;
-    using System.Data.OracleClient;
-    using System.Text;
-    using NUnit.Framework;
+	using NUnit.Framework;
+	using System.Collections.Generic;
+	using System.Configuration;
+	using System.Data;
+	using System.Data.OracleClient;
+	using System.Text;
 
 	[Category("Oracle"), Category("DbIntegration")]
 	public class OracleDatabaseSchemaVersionManagerTest : AbstractDatabaseSchemaVersionManagerTest
@@ -48,6 +48,8 @@ namespace Net.Sf.Dbdeploy.Database
 		{
 			get { return DBMS; }
 		}
+
+		protected override int? CommandTimeout => null;
 
 		protected override void InsertRowIntoTable(int i)
 		{

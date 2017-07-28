@@ -1,15 +1,13 @@
 namespace Net.Sf.Dbdeploy.Database
 {
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Globalization;
-    using System.Linq;
+	using Net.Sf.Dbdeploy.Exceptions;
+	using NUnit.Framework;
+	using System.Collections.Generic;
+	using System.Data;
+	using System.Globalization;
+	using System.Linq;
 
-    using Net.Sf.Dbdeploy.Exceptions;
-
-    using NUnit.Framework;
-
-    [TestFixture]
+	[TestFixture]
     public abstract class AbstractDatabaseSchemaVersionManagerTest
     {
         public const string TableName = "ChangeLog";
@@ -22,7 +20,7 @@ namespace Net.Sf.Dbdeploy.Database
         protected void SetUp()
         {
             var factory = new DbmsFactory(Dbms, ConnectionString);
-            var executer = new QueryExecuter(factory);
+            var executer = new QueryExecuter(factory, CommandTimeout);
 
             this.syntax = factory.CreateDbmsSyntax();
             databaseSchemaVersion = new DatabaseSchemaVersionManager(executer, this.syntax, TableName);
@@ -178,7 +176,8 @@ namespace Net.Sf.Dbdeploy.Database
         }
 
         protected abstract string ConnectionString { get; }
-        protected abstract string Folder { get; }
+		protected abstract int? CommandTimeout { get; }
+		protected abstract string Folder { get; }
         protected abstract string[] ChangelogTableDoesNotExistMessages { get; }
         protected abstract string Dbms { get; }
         protected abstract IDbConnection GetConnection();

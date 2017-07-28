@@ -1,14 +1,13 @@
 ﻿namespace Net.Sf.Dbdeploy.Configuration
 {
-    using System.IO;
-    using System.Text;
+	using Net.Sf.Dbdeploy.Database;
+	using System.IO;
+	using System.Text;
 
-    using Net.Sf.Dbdeploy.Database;
-
-    /// <summary>
-    /// Represents DbDeploy configuration settings.
-    /// </summary>
-    public class DbDeployConfig
+	/// <summary>
+	/// Represents DbDeploy configuration settings.
+	/// </summary>
+	public class DbDeployConfig
     {
         /// <summary>
         /// Gets or sets the database management system being used (mssql, mysql, or ora).
@@ -134,6 +133,14 @@
         /// </value>
         public string LineEnding { get; set; }
 
+		/// <summary>
+		/// Gets or sets the command timeout for every statement.
+		/// </summary>
+		/// <value>
+		/// The command timeout. (in seconds)
+		/// </value>
+		public int? CommandTimeout { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DbDeployConfig" /> class.
         /// </summary>
@@ -154,6 +161,7 @@
             this.Delimiter = DbDeployDefaults.Delimiter;
             this.DelimiterType = DbDeployDefaults.DelimiterType;
             this.LineEnding = DbDeployDefaults.LineEnding;
-        }
+            this.CommandTimeout = DbDeployDefaults.CommandTimeout;
+		}
     }
 }

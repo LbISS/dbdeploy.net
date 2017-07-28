@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Net.Sf.Dbdeploy.Appliers;
+using Net.Sf.Dbdeploy.Configuration;
+using Net.Sf.Dbdeploy.Scripts;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Text;
-using Net.Sf.Dbdeploy.Appliers;
-using Net.Sf.Dbdeploy.Configuration;
-using Net.Sf.Dbdeploy.Scripts;
-using NUnit.Framework;
 
 namespace Net.Sf.Dbdeploy.Database
 {
@@ -41,6 +41,7 @@ namespace Net.Sf.Dbdeploy.Database
 		{
 			get { return FOLDER; }
 		}
+		protected override int? CommandTimeout => null;
 
 		protected override string[] ChangelogTableDoesNotExistMessages
 		{
@@ -119,7 +120,7 @@ namespace Net.Sf.Dbdeploy.Database
 
 			var cmdOutput = new StringBuilder();
 
-			var executer = new QueryExecuter(factory);
+			var executer = new QueryExecuter(factory, CommandTimeout);
 			executer.Execute(output.ToString(), cmdOutput);
 
 			this.AssertTableDoesNotExist("TableWeWillUse");

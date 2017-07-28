@@ -1,20 +1,18 @@
 ﻿namespace Net.Sf.Dbdeploy
 {
-    using System;
-    using System.IO;
-    using System.Reflection;
-    using System.Text;
+	using Net.Sf.Dbdeploy.Appliers;
+	using Net.Sf.Dbdeploy.Configuration;
+	using Net.Sf.Dbdeploy.Database;
+	using Net.Sf.Dbdeploy.Exceptions;
+	using Net.Sf.Dbdeploy.Scripts;
+	using System;
+	using System.IO;
+	using System.Reflection;
 
-    using Net.Sf.Dbdeploy.Appliers;
-    using Net.Sf.Dbdeploy.Configuration;
-    using Net.Sf.Dbdeploy.Database;
-    using Net.Sf.Dbdeploy.Exceptions;
-    using Net.Sf.Dbdeploy.Scripts;
-
-    /// <summary>
-    /// Main class for running database deployment.
-    /// </summary>
-    public class DbDeployer
+	/// <summary>
+	/// Main class for running database deployment.
+	/// </summary>
+	public class DbDeployer
     {
         /// <summary>
         /// Generates the welcome string.
@@ -45,7 +43,7 @@
             
             var dbmsSyntax = factory.CreateDbmsSyntax();
 
-            var queryExecuter = new QueryExecuter(factory);
+            var queryExecuter = new QueryExecuter(factory, config.CommandTimeout);
 
             var databaseSchemaVersionManager = new DatabaseSchemaVersionManager(queryExecuter, dbmsSyntax, config.ChangeLogTableName);
 
@@ -94,7 +92,7 @@
                 };
 
                 // Do not share query executor between schema manager and applier, since a failure in one will effect the other.
-                applierExecutor = new QueryExecuter(factory);
+                applierExecutor = new QueryExecuter(factory, config.CommandTimeout);
                 doScriptApplier = new DirectToDbApplier(
                     applierExecutor, 
                     databaseSchemaVersionManager, 

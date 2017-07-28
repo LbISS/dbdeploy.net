@@ -1,21 +1,28 @@
 ﻿namespace Net.Sf.Dbdeploy.Database
 {
-    using System;
-    using System.Data;
-    using System.Text;
+	using System;
+	using System.Data;
+	using System.Text;
 
-    public class QueryExecuter
+	public class QueryExecuter
     {
         private readonly IDbConnection connection;
 
         private IDbTransaction transaction;
+
+		private int? commandTimeout;
 
         /// <summary>
         /// The output of the current execution.
         /// </summary>
         private StringBuilder currentOutput;
 
-        public QueryExecuter(DbmsFactory factory)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="QueryExecuter"/> class.
+		/// </summary>
+		/// <param name="factory">The dbms factory.</param>
+		/// <param name="commandTimeout">The command timeout.</param>
+		public QueryExecuter(DbmsFactory factory, int? commandTimeout)
         {
             this.connection = factory.CreateConnection();
 
@@ -24,7 +31,9 @@
             this.currentOutput = null;
 
             this.AttachInfoMessageEventHandler(this.connection);
-        }
+
+			this.commandTimeout = commandTimeout;
+		}
 
         /// <summary>
         /// Executes the query.
@@ -194,7 +203,10 @@
         {
             IDbCommand command = this.connection.CreateCommand();
 
-            if (this.transaction != null)
+			if(this.commandTimeout.HasValue)
+				command.CommandTimeout = this.commandTimeout.Value;
+
+			if (this.transaction != null)
             {
                 command.Transaction = this.transaction;
             }

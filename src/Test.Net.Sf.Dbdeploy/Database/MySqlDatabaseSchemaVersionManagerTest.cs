@@ -2,23 +2,20 @@ using MySql.Data.MySqlClient;
 
 namespace Net.Sf.Dbdeploy.Database
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Data;
-    using System.Data.SqlClient;
-    using System.Globalization;
-    using System.IO;
-    using System.Text;
-    using global::Dbdeploy.Powershell;
-    using Net.Sf.Dbdeploy.Appliers;
-    using Net.Sf.Dbdeploy.Configuration;
-    using Net.Sf.Dbdeploy.Database.SqlCmd;
-    using Net.Sf.Dbdeploy.Exceptions;
-    using Net.Sf.Dbdeploy.Scripts;
-    using NUnit.Framework;
+	using Net.Sf.Dbdeploy.Appliers;
+	using Net.Sf.Dbdeploy.Configuration;
+	using Net.Sf.Dbdeploy.Database.SqlCmd;
+	using Net.Sf.Dbdeploy.Scripts;
+	using NUnit.Framework;
+	using System;
+	using System.Collections.Generic;
+	using System.Configuration;
+	using System.Data;
+	using System.Globalization;
+	using System.IO;
+	using System.Text;
 
-    [Category("MYSQL"), Category("DbIntegration")]
+	[Category("MYSQL"), Category("DbIntegration")]
     public class MySqlDatabaseSchemaVersionManagerTest : AbstractDatabaseSchemaVersionManagerTest
     {
         private static string _connectionString;
@@ -59,7 +56,9 @@ namespace Net.Sf.Dbdeploy.Database
 			get { return DBMS; }
     	}
 
-        [Test]
+		protected override int? CommandTimeout => null;
+
+		[Test]
     	public void ShouldNotThrowExceptionIfAllPreviousScriptsAreCompleted()
     	{
 			this.EnsureTableDoesNotExist();
