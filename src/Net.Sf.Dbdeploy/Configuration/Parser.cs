@@ -1,11 +1,12 @@
 ﻿namespace Net.Sf.Dbdeploy.Configuration
 {
-    using Net.Sf.Dbdeploy.Database;
+	using Net.Sf.Dbdeploy.Database;
+	using System;
 
-    /// <summary>
-    /// Parser for command line arguments.
-    /// </summary>
-    public static class Parser
+	/// <summary>
+	/// Parser for command line arguments.
+	/// </summary>
+	public static class Parser
     {
         /// <summary>
         /// Parses the type of the delimiter.
@@ -48,5 +49,25 @@
                     return LineEnding.Platform;
             }
         }
-    }
+
+		/// <summary>
+		/// Parses the type of the int.
+		/// </summary>
+		/// <param name="value">The value.</param>
+		/// <returns></returns>
+		public static int? ParseIntType(string value)
+		{
+			if (string.IsNullOrWhiteSpace(value))
+				return null;
+
+			int res;
+
+			var success = Int32.TryParse(value, out res);
+
+			if (success)
+				return res;
+
+			return null;
+		}
+	}
 }

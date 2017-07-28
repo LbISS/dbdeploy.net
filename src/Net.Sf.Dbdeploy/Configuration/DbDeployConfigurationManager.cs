@@ -1,14 +1,14 @@
 ﻿namespace Net.Sf.Dbdeploy.Configuration
 {
-    using System;
-    using System.IO;
-    using System.Linq;
-    using System.Xml.Linq;
+	using System;
+	using System.IO;
+	using System.Linq;
+	using System.Xml.Linq;
 
-    /// <summary>
-    /// Manager for handling DbDeploy configuration files.
-    /// </summary>
-    public class DbDeployConfigurationManager : IDbDeployConfigurationManager
+	/// <summary>
+	/// Manager for handling DbDeploy configuration files.
+	/// </summary>
+	public class DbDeployConfigurationManager : IDbDeployConfigurationManager
     {
         /// <summary>
         /// Reads the configuration.
@@ -68,8 +68,9 @@
             config.Delimiter = GetAttribute(element, "delimiter", DbDeployDefaults.Delimiter);
             config.DelimiterType = GetAttribute(element, "delimiterType", DbDeployDefaults.DelimiterType, Parser.ParseDelimiterType);
             config.LineEnding = GetAttribute(element, "lineEnding", DbDeployDefaults.LineEnding, Parser.ParseLineEnding);
+			config.CommandTimeout = GetAttribute(element, "commandTimeout", null, Parser.ParseIntType);
 
-            return config;
+			return config;
         }
 
         /// <summary>
