@@ -1,13 +1,13 @@
 namespace Net.Sf.Dbdeploy.Scripts
 {
-    using System.Globalization;
-    using System.IO;
-    using System.Text;
+	using System.Globalization;
+	using System.IO;
+	using System.Text;
 
-    /// <summary>
-    /// Represents a SQL script to be executed.
-    /// </summary>
-    public class ChangeScript : UniqueChange
+	/// <summary>
+	/// Represents a SQL script to be executed.
+	/// </summary>
+	public class ChangeScript : UniqueChange
     {
         /// <summary>
         /// The undo token to search for to find script to pull out as undoing the current changes.
@@ -81,11 +81,19 @@ namespace Net.Sf.Dbdeploy.Scripts
         /// </value>
         public string ScriptName { get; protected set; }
 
-        /// <summary>
-        /// Gets the SQL file update content.
-        /// </summary>
-        /// <returns>File content.</returns>
-        public virtual string GetContent()
+		/// <summary>
+		/// Gets a value indicating whether execute this script in transaction or not.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if execute not in transaction; otherwise, <c>false</c>.
+		/// </value>
+		public bool ExecuteNonTran => ScriptName?.Contains("_no-transaction_") ?? false;
+
+		/// <summary>
+		/// Gets the SQL file update content.
+		/// </summary>
+		/// <returns>File content.</returns>
+		public virtual string GetContent()
         {
             return this.GetFileContents();
         }

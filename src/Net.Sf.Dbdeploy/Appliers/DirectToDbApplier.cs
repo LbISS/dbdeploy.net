@@ -1,17 +1,16 @@
 ﻿namespace Net.Sf.Dbdeploy.Appliers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Common;
-    using System.IO;
-    using System.Linq;
-    using System.Text;
+	using Net.Sf.Dbdeploy.Database;
+	using Net.Sf.Dbdeploy.Exceptions;
+	using Net.Sf.Dbdeploy.Scripts;
+	using System;
+	using System.Collections.Generic;
+	using System.Data.Common;
+	using System.IO;
+	using System.Linq;
+	using System.Text;
 
-    using Net.Sf.Dbdeploy.Database;
-    using Net.Sf.Dbdeploy.Exceptions;
-    using Net.Sf.Dbdeploy.Scripts;
-
-    public class DirectToDbApplier : IChangeScriptApplier
+	public class DirectToDbApplier : IChangeScriptApplier
     {
         private readonly QueryExecuter queryExecuter;
 
@@ -66,9 +65,10 @@
             foreach (var script in changeScripts)
             {
                 this.RecordScriptStatus(script, ScriptStatus.Started);
-
-                // Begin transaction
-                this.queryExecuter.BeginTransaction();
+				
+				// Begin transaction
+				if(!script.ExecuteNonTran)
+					this.queryExecuter.BeginTransaction();
 
                 this.infoTextWriter.WriteLine(script);
                 this.infoTextWriter.WriteLine("----------------------------------------------------------");
@@ -91,8 +91,9 @@
                     throw;
                 }
 
-                // Commit transaction
-                this.queryExecuter.CommitTransaction();
+				// Commit transaction
+				if (!script.ExecuteNonTran)
+					this.queryExecuter.CommitTransaction();
             }
         }
 
