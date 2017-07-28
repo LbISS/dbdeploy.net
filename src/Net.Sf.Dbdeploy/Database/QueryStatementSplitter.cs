@@ -1,9 +1,9 @@
 ﻿namespace Net.Sf.Dbdeploy.Database
 {
-    using System.Collections.Generic;
-    using System.Text;
+	using System.Collections.Generic;
+	using System.Text;
 
-    public class QueryStatementSplitter
+	public class QueryStatementSplitter
     {
         private string delimiter = ";";
 
@@ -44,7 +44,7 @@
             {
                 string strippedLine = line.TrimEnd();
 
-                if (string.IsNullOrEmpty(strippedLine))
+                if (string.IsNullOrEmpty(strippedLine) || strippedLine.Trim().StartsWith("--")/*ignore comments*/)
                     continue;
 
                 if (currentSql.Length != 0)
