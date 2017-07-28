@@ -56,7 +56,13 @@
 
                 if (this.delimiterType.Matches(strippedLine, this.delimiter))
                 {
-                    statements.Add(currentSql.ToString(0, currentSql.Length - this.delimiter.Length));
+					var addStatement = currentSql.ToString(0, currentSql.Length - this.delimiter.Length);
+
+					//ignore empty statements (for example: "go;\n \ngo;")
+					if (!string.IsNullOrWhiteSpace(addStatement))
+					{
+						statements.Add(addStatement);
+					}
 
                     // Clear StringBuilder
                     currentSql.Length = 0;
