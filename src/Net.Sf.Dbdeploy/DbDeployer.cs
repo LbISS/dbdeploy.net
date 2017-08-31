@@ -38,8 +38,9 @@
             infoWriter.WriteLine();
             infoWriter.WriteLine("==========================================================");
             infoWriter.WriteLine(this.GenerateWelcomeString());
+			infoWriter.WriteLine("Connection string: " + config.ConnectionString);
 
-            var factory = new DbmsFactory(config.Dbms, config.ConnectionString);
+			var factory = new DbmsFactory(config.Dbms, config.ConnectionString);
             
             var dbmsSyntax = factory.CreateDbmsSyntax();
 
