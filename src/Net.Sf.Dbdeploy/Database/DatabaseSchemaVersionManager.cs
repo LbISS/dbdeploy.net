@@ -1,18 +1,17 @@
 namespace Net.Sf.Dbdeploy.Database
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Data.Common;
-    using System.Globalization;
+	using Net.Sf.Dbdeploy.Exceptions;
+	using Net.Sf.Dbdeploy.Scripts;
+	using System;
+	using System.Collections.Generic;
+	using System.Data;
+	using System.Data.Common;
+	using System.Globalization;
 
-    using Net.Sf.Dbdeploy.Exceptions;
-    using Net.Sf.Dbdeploy.Scripts;
-
-    /// <summary>
-    /// Manages updating the change log table in the database, and retrieving applied changes.
-    /// </summary>
-    public class DatabaseSchemaVersionManager : IAppliedChangesProvider
+	/// <summary>
+	/// Manages updating the change log table in the database, and retrieving applied changes.
+	/// </summary>
+	public class DatabaseSchemaVersionManager : IAppliedChangesProvider
     {
         /// <summary>
         /// The query executer for getting and updating the change log table.
@@ -66,7 +65,7 @@ namespace Net.Sf.Dbdeploy.Database
                     while (reader.Read())
                     {
                         var folder = GetValue<string>(reader, "Folder");
-                        var scriptNumber = GetValue<short>(reader, "ScriptNumber");
+                        var scriptNumber = GetValue<int>(reader, "ScriptNumber");
                         var changeEntry = new ChangeEntry(folder, scriptNumber);
                         changeEntry.ChangeId = GetValue<int>(reader, "ChangeId");
                         changeEntry.ScriptName = GetValue<string>(reader, "ScriptName");

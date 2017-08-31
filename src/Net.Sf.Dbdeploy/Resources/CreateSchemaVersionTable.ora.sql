@@ -1,7 +1,7 @@
 CREATE TABLE $(QualifiedTableName) (
 	ChangeId INT NOT NULL AUTO_INCREMENT,
 	Folder VARCHAR2(256) NOT NULL,
-	ScriptNumber SMALLINT NOT NULL,
+	ScriptNumber INT NOT NULL,
 	ScriptName VARCHAR2(512) NOT NULL,
 	StartDate TIMESTAMP NOT NULL,
 	CompleteDate TIMESTAMP NULL,
