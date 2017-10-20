@@ -44,9 +44,6 @@
             {
                 string strippedLine = line.TrimEnd();
 
-                if (string.IsNullOrEmpty(strippedLine) || strippedLine.Trim().StartsWith("--")/*ignore comments*/)
-                    continue;
-
                 if (currentSql.Length != 0)
                 {
                     currentSql.Append(this.lineEnding);
